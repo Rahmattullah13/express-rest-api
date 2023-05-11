@@ -6,6 +6,9 @@ import compression from 'compression';
 import cors from 'cors';
 
 import mongoose from 'mongoose';
+import router from './router';
+
+require('dotenv').config();
 
 const app = express();
 
@@ -25,8 +28,10 @@ server.listen(8080, () => {
   console.log('Server running on http://localhost:8080/');
 });
 
-const MONGO_URL = 'mongodb+srv://Rifki:rahmat011099@cluster0.vgdz2uh.mongodb.net/?retryWrites=true&w=majority'; // DB URI
+const MONGO_URL = process.env.MONGO_URL; // DB URI
 
 mongoose.Promise = Promise;
 mongoose.connect(MONGO_URL);
 mongoose.connection.on('error', (error: Error) => console.log(error));
+
+app.use('/', router());
